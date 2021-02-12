@@ -1,0 +1,11 @@
+---
+
+- name: install snapd
+  package:
+    name: snapd
+    state: present
+
+- name: install snap core
+  snap: 
+    name: core
+

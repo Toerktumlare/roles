@@ -1,0 +1,68 @@
+---
+
+- name: create folder for backgrounds
+  file:
+    path: ~/Pictures/wallpapers
+    state: directory
+    mode: 0755
+
+- name: add wallpapers
+  copy:
+    src: appearance/wallpapers
+    dest: ~/Pictures
+    mode: 0755
+
+- name: install feh to set wallpaper in i3
+  package:
+    name: 'feh'
+    state: present
+  become: true
+
+- name: set up theme folder
+  file:
+    path: ~/.themes
+    state: directory
+    mode: 0755
+
+- name: download theme
+  get_url:
+    url: https://github.com/dracula/gtk/releases/download/v2.0/Dracula.tar.xz
+    dest: /tmp
+    checksum: md5:932f00dc1e39b48a4e01827776f166c2
+
+- name: extract theme
+  unarchive:
+    src: /tmp/Dracula.tar.xz
+    dest: /tmp
+    remote_src: yes
+
+- name: copy themes to remote
+  copy:
+    src: /tmp/Dracula-slim
+    dest: ~/.themes
+    mode: 0755
+    remote_src: yes
+
+- name: set theme
+  shell: xfconf-query -c xsettings -p /Net/ThemeName -s Dracula-slim
+
+- name: set up icons folder
+  file:
+    path: ~/.icons
+    state: directory
+    mode: 0755
+
+- name: copy icons to remote
+  copy:
+    src: appearance/icons/
+    dest: ~/.icons
+    mode: 0755
+
+- name: set theme
+  shell: xfconf-query -c xsettings -p /Net/IconThemeName -s Sweet-Purple-Filled
+
+- name: set up Dracula theme for xfce-terminal
+  copy:
+    src: terminal/terminalrc
+    dest: ~/.config/xfce4/terminal/terminalrc
+    mode: 0755

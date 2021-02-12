@@ -1,0 +1,15 @@
+---
+
+- name: install maven
+  package:
+    name: 'maven'
+    state: present
+  become: true
+
+- name: set maven env variables
+  copy:
+    src: mavenenv.sh
+    dest: /etc/profile.d
+    mode: 0777
+  become: true
+

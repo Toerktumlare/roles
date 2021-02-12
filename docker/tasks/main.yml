@@ -1,0 +1,34 @@
+---
+
+- name: add official docker gpg key to apt
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  become: yes
+
+- name: add docker repository | Debian
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian buster stable"
+    state: present
+  become: yes
+
+- name: install docker
+  package:
+    name: 
+     - docker-ce
+     - docker-ce-cli
+     - containerd.io
+    state: latest
+  become: yes
+
+- name: Ensure group "docker" exists
+  group:
+    name: docker
+    state: present
+
+- name: add default user to group
+  user:
+    name: "{{ user }}"
+    groups: docker
+    append: yes
+  become: yes

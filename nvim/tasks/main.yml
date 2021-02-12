@@ -1,0 +1,37 @@
+---
+
+- name: install neovim
+  package:
+    name: neovim
+    state: present
+  become: yes
+
+- name: create neovim autoload folder
+  file:
+    path: ~/.local/share/nvim/site/autoload/
+    state: directory
+    mode: '0755'
+
+- name: Download vim-plug.vim for neovim
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: ~/.local/share/nvim/site/autoload/plug.vim
+    mode: '0755'
+    force: true
+
+- name: create nvim config dir
+  ansible.builtin.file:
+    path: ~/.config/nvim/
+    state: directory
+    mode: '0755'
+
+- name: install vimrc
+  copy:
+    src: init.vim
+    dest: ~/.config/nvim/init.vim
+    owner: thomas
+    group: thomas
+    mode: '0644'
+   
+- name: install vim plugins
+  shell: "nvim --headless +PlugInstall +qall"

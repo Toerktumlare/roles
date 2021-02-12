@@ -1,0 +1,50 @@
+---
+
+- name: install i3
+  package:
+    name: 'i3'
+    state: present
+  become: yes
+
+- name: configure Xresources
+  file:
+    src: "{{ dotfiles_folder }}/i3/.Xresources"
+    dest: ~/.Xresources
+    state: link
+
+- name: create i3 config folder
+  file:
+    path: ~/.config/i3/
+    state: directory
+    mode: 0755
+
+- name: set up i3 config
+  file:
+    src: "{{ dotfiles_folder }}/i3/i3_config"
+    dest: ~/.config/i3/config
+    state: link
+ 
+- name: create i3status config folder
+  file:
+    path: ~/.config/i3status/
+    state: directory
+    mode: 0755
+
+- name: set up i3status config
+  file:
+    src: "{{ dotfiles_folder }}/i3/i3status/2.12/.i3status.conf"
+    dest: ~/.config/i3status/config
+    state: link
+
+- name: ensure gtk 3.0 config directory exists
+  file:
+    path: ~/.config/gtk-3.0/
+    state: directory
+    mode: 0755
+
+- name: link gtk-3.0 config
+  file:
+    src: "{{ dotfiles_folder }}/i3/gtk-3.0/settings.ini"
+    dest: ~/.config/gtk-3.0/settings.ini
+    state: link
+

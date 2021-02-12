@@ -1,0 +1,33 @@
+---
+
+- name: install fish
+  package:
+    name: 'fish'
+    state: present
+  become: true
+
+- name: get fish path
+  shell: which fish
+  register: fish_path
+  changed_when: false
+
+- debug:
+    msg: "fish path: {{fish_path.stdout}}"
+
+- name: set fish as default shell
+  shell: "chsh -s {{ fish_path.stdout }} {{ user }}"
+  become: true
+
+- name: link fish variables from dotfiles
+  file:
+    src: "{{ dotfiles_folder}}/fish/fish_variables"
+    dest: ~/.config/fish/fish_variables
+    state: link
+    force: yes
+
+- name: link fish config from dotfiles
+  file:
+    src: "{{ dotfiles_folder}}/fish/config.fish"
+    dest: ~/.config/fish/config.fish
+    state: link
+    force: yes

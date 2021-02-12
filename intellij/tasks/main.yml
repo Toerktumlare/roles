@@ -1,0 +1,11 @@
+---
+
+- include_role: 
+    name: snapstore
+
+- name: install intellij from snap store
+  snap:
+    name: intellij-idea-community
+    classic: yes
+  become: yes 
+    

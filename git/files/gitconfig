@@ -1,0 +1,19 @@
+[core]
+autocrlf = input
+
+[branch]
+autosetuprebase = always
+autosetupmerge = always
+
+[color]
+ui = true
+
+[github]
+user = tandolf
+
+[pull]
+ff = only
+
+[user]
+name = Thomas Andolf
+email = thomas.andolf@gmail.com
