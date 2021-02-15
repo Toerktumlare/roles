@@ -1,0 +1,6 @@
+---
+
+- name: ensure nautilus is installed
+  package:
+    name: nautilus
+    state: present

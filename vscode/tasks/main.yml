@@ -1,0 +1,74 @@
+---
+
+- name: install apt key (Debian)
+  apt_key:
+    url: 'https://packages.microsoft.com/keys/microsoft.asc'
+    state: present
+  become: yes
+
+- name: install VS Code apt repo (Debian)
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+    state: present
+  become: yes
+
+- name: install vscode
+  package:
+    name: code
+    state: present
+  become: yes
+
+- name: ensure vscode global config directory exists
+  file:
+    path: ~/.config/code/user/
+    state: directory
+    mode: 0755
+
+- name: link vscode settings.json
+  file:
+    src: "{{ dotfiles_folder }}/vscode/settings.json"
+    dest: ~/.config/Code/User/settings.json
+    state: link
+
+- name: link vscode settings.json
+  file:
+    src: "{{ dotfiles_folder }}/vscode/keybindings.json"
+    dest: ~/.config/Code/User/keybindings.json
+    state: link
+
+- name: link vscode tasks.json
+  file:
+    src: "{{ dotfiles_folder }}/vscode/tasks.json"
+    dest: ~/.config/Code/User/tasks.json
+    state: link
+
+- name: check vscode snippets directory exists
+  stat:
+    path: ~/.config/Code/User/snippets/
+  register: snippets_folder
+
+- name: print snippets folder status
+  debug:
+    msg: "{{ snippets_folder }}"
+
+- name: remove the folder (only if it is a folder)
+  file: 
+    path: ~/.config/Code/User/snippets/
+    state: absent
+  when: snippets_folder.stat.isdir == "defined" and snippets_folder.stat.isdir
+  
+- name: link vscode snippets
+  file:
+    src: "{{ dotfiles_folder }}/vscode/snippets/"
+    dest: ~/.config/Code/User/snippets
+    state: link
+    force: yes
+
+- name: install extensions for vscode
+  shell: "code --install-extension {{ item }}"
+  with_items:
+    - vscodevim.vim
+    - vscode-icons-team.vscode-icons
+    - visualstudioexptteam.vscodeintellicode
+    - dracula-theme.theme-dracula
+
