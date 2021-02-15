@@ -20,7 +20,7 @@
 
 - name: ensure vscode global config directory exists
   file:
-    path: ~/.config/code/user/
+    path: ~/.config/Code/User/
     state: directory
     mode: 0755
 
@@ -30,7 +30,7 @@
     dest: ~/.config/Code/User/settings.json
     state: link
 
-- name: link vscode settings.json
+- name: link vscode keybindings.json
   file:
     src: "{{ dotfiles_folder }}/vscode/keybindings.json"
     dest: ~/.config/Code/User/keybindings.json
@@ -51,11 +51,11 @@
   debug:
     msg: "{{ snippets_folder }}"
 
-- name: remove the folder (only if it is a folder)
+- name: remove the folder (only if it exists and is a folder)
   file: 
     path: ~/.config/Code/User/snippets/
     state: absent
-  when: snippets_folder.stat.isdir == "defined" and snippets_folder.stat.isdir
+  when: snippets_folder.stat.exists == true and snippets_folder.stat.isdir
   
 - name: link vscode snippets
   file:

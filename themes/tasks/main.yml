@@ -61,6 +61,12 @@
 - name: set theme
   shell: xfconf-query -c xsettings -p /Net/IconThemeName -s Sweet-Purple-Filled
 
+- name: ensure that the xfce terminal config folder exists
+  file:
+    path: ~/.config/xfce4/terminal/
+    state: directory
+    mode: 0755
+
 - name: set up Dracula theme for xfce-terminal
   copy:
     src: terminal/terminalrc

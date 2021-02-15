@@ -1,0 +1,14 @@
+---
+
+- name: install tmux
+  package:
+    name: tmux
+    state: present
+  become: yes
+
+- name: set up tmux config
+  file:
+    src: "{{ dotfiles_folder }}/tmux/.tmux.conf"
+    dest: ~/.tmux.conf
+    state: link
+ 

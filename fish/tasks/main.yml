@@ -18,6 +18,12 @@
   shell: "chsh -s {{ fish_path.stdout }} {{ user }}"
   become: true
 
+- name: create fish config folder
+  file:
+    path: ~/.config/fish/
+    state: directory
+    mode: 0755
+
 - name: link fish variables from dotfiles
   file:
     src: "{{ dotfiles_folder}}/fish/fish_variables"
