@@ -25,11 +25,20 @@
     state: directory
     mode: '0755'
 
-- name: set up i3 config
+- name: set up nvim config
   file:
     src: "{{ dotfiles_folder }}/nvim/init.vim"
     dest: ~/.config/nvim/init.vim
     state: link
- 
+
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: install curl if not installed
+  include_role:
+    name: curl
+  when: ansible_facts.packages['curl'] is defined
+  
 - name: install vim plugins
   shell: "nvim --headless +PlugInstall +qall"
