@@ -38,7 +38,7 @@
 - name: install curl if not installed
   include_role:
     name: curl
-  when: ansible_facts.packages['curl'] is defined
+  when: ansible_facts.packages['curl'] is not defined
   
 - name: install vim plugins
   shell: "nvim --headless +PlugInstall +qall"
