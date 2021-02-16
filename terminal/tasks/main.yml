@@ -1,0 +1,9 @@
+---
+
+- name: link terminal configuration
+  file:
+    src: "{{ dotfiles_folder }}/terminal/terminalrc"
+    dest: ~/.config/xfce4/terminal/terminalrc
+    state: link
+    force: yes
+

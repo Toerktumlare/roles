@@ -1,0 +1,19 @@
+---
+
+- name: fetch nerd fonts
+  get_url:
+    url: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Hack.zip
+    dest: /tmp
+    mode: '0644'
+
+- name: ensure font directory exists
+  file:
+    path: ~/.local/share/fonts
+    state: directory
+    mode: '0755'
+
+- name: unzip fonts to font folder
+  unarchive:
+    src: /tmp/Hack.zip
+    dest: ~/.local/share/fonts
+    remote_src: yes
