@@ -1,0 +1,7 @@
+---
+
+- name: add backports to apt
+  apt_repository:
+    repo: deb http://deb.debian.org/debian buster-backports main
+    state: present
+  become: yes

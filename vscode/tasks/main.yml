@@ -51,15 +51,9 @@
   debug:
     msg: "{{ snippets_folder }}"
 
-- name: remove the folder (only if it exists and is a folder)
-  file: 
-    path: ~/.config/Code/User/snippets/
-    state: absent
-  when: snippets_folder.stat.exists == true and snippets_folder.stat.isdir
-  
 - name: link vscode snippets
   file:
-    src: "{{ dotfiles_folder }}/vscode/snippets/"
+    src: "{{ dotfiles_folder }}/vscode/snippets"
     dest: ~/.config/Code/User/snippets
     state: link
     force: yes

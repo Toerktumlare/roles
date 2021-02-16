@@ -1,9 +1,14 @@
 ---
 
+- name: include backports repo
+  include_role:
+    name: backports
+
 - name: install tmux
-  package:
+  apt:
     name: tmux
     state: present
+    default_release: buster-backports
   become: yes
 
 - name: set up tmux config
