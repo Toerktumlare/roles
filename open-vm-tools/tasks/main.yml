@@ -12,3 +12,35 @@
     state: present
   become: yes
 
+- name: copy mount service
+  copy:
+    src: mnt-hgfs.mount
+    dest: /etc/systemd/system/mnt-hgfs.mount
+    mode: '777'
+  become: yes
+
+- name: configure open-vm-tools to use fuse
+  copy:
+    src: open-vm-tools.conf
+    dest: /etc/modules-load.d/open-vm-tools.conf
+    mode: '644'
+  become: yes
+
+- name: enable mount service
+  service:
+    name: mnt-hgfs.mount
+    state: started
+    enabled: yes
+  become: yes
+
+- name: remove .ssh folder if there is one
+  file:
+    path: ~/.ssh
+    state: absent
+
+- name: link mounted .ssh folder to correct folder location
+  file:
+    src: /mnt/hgfs/.ssh
+    dest: ~/.ssh
+    mode: '700'
+    state: link

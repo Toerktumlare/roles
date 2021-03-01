@@ -1,0 +1,38 @@
+---
+
+- name: fetch alacritty
+  get_url:
+    url: https://github.com/Tandolf/alacritty-debian/releases/download/v0.7.1-1/alacritty_0.7.1-1_amd64_debian_buster.deb
+    dest: /tmp/alacritty_0.7.1-1_amd64_debian_buster.deb
+    checksum: sha256:5586df74ae25ec1c61630e98fa249923b798e56cec14de75ad87c82d02cce7bd
+    mode: 0744
+
+- name:
+  apt:
+    deb: /tmp/alacritty_0.7.1-1_amd64_debian_buster.deb
+  become: yes
+
+- name: ensure alacritty config folder exists
+  file:
+    path: "{{ alacritty_config_folder }}"
+    state: directory
+    mode: 0755
+
+- name: set $TERMINAL to alacritty
+  file:
+    src: "{{ dotfiles_folder }}/alacritty/alacritty.fish"
+    dest: "{{ autoload_folder }}/alacritty.fish"
+    state: link
+
+- name: add alacritty config
+  file:
+    src: "{{ dotfiles_folder }}/alacritty/alacritty.yml"
+    dest: "{{ alacritty_config_folder }}/alacritty.yml"
+    state: link
+
+- name: add alacritty theme
+  file:
+    src: "{{ dotfiles_folder }}/alacritty/{{ alacritty_theme_name }}.yml"
+    dest: "{{ alacritty_config_folder }}/{{ alacritty_theme_name }}.yml"
+    state: link
+

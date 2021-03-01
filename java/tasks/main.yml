@@ -4,5 +4,13 @@
   package:
     name: 'openjdk-11-jdk'
     state: present
-  become: true
+  become: yes
+
+
+- name: set java env variables
+  copy:
+    src: java_env.fish
+    dest: ~/bin/autoload
+    mode: 0777
+
 

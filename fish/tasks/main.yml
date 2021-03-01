@@ -20,20 +20,26 @@
 
 - name: create fish config folder
   file:
-    path: ~/.config/fish/
+    path: "{{ fish_config_folder }}"
     state: directory
     mode: 0755
 
 - name: link fish variables from dotfiles
   file:
     src: "{{ dotfiles_folder}}/fish/fish_variables"
-    dest: ~/.config/fish/fish_variables
+    dest: "{{ fish_config_folder }}/fish_variables"
     state: link
     force: yes
 
 - name: link fish config from dotfiles
   file:
     src: "{{ dotfiles_folder}}/fish/config.fish"
-    dest: ~/.config/fish/config.fish
+    dest: "{{ fish_config_folder }}/config.fish"
     state: link
     force: yes
+
+- name: ensure ~/bin/autoload dir exists
+  file:
+    path: "{{ autoload_folder }}"
+    state: directory
+    mode: 0755

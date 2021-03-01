@@ -3,6 +3,6 @@
 - name: Read-write git checkout of dotfiles
   git:
     repo: git@github.com:tandolf/dotfiles.git
-    dest: ~/.config/dotfiles
+    dest: "{{ dotfiles_folder}}"
     accept_hostkey: yes
     force: yes

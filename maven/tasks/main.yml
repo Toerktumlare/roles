@@ -8,8 +8,7 @@
 
 - name: set maven env variables
   copy:
-    src: mavenenv.sh
-    dest: /etc/profile.d
+    src: maven_env.fish
+    dest: ~/bin/autoload
     mode: 0777
-  become: true
 

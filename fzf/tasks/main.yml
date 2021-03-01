@@ -1,0 +1,24 @@
+---
+
+- name: make sure fish is installed
+  include_role:
+    name: fish
+
+- name: install fzf
+  package:
+    name: fzf
+    state: present
+  become: yes
+
+- name: ensure fish functions folder exists
+  file:
+    path: ~/.config/fish/functions
+    state: directory
+    mode: 0755
+
+- name: symlink fzf keybindings
+  file:
+    src: /usr/share/doc/fzf/examples/fish_user_key_bindings.fish
+    dest: ~/.config/fish/functions/fish_user_key_bindings.fish
+    state: link
+

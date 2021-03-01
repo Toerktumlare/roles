@@ -58,7 +58,7 @@
     state: link
     force: yes
 
-- name: install extensions for vscode
+- name: install default extensions for vscode
   shell: "code --install-extension {{ item }}"
   with_items:
     - vscodevim.vim
@@ -66,3 +66,13 @@
     - visualstudioexptteam.vscodeintellicode
     - dracula-theme.theme-dracula
 
+- name: Gather the package facts
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: install vscode docker plugins if docker is installed
+  shell: "code --install-extension {{ item }}"
+  with_items:
+    - ms-azuretools.vscode-docker
+    - ms-vscode-remote.remote-containers
+  when: ansible_facts.packages['docker-ce'] is defined

@@ -1,0 +1,3 @@
+---
+autoload_folder: ~/bin/autoload
+fish_config_folder: ~/.config/fish

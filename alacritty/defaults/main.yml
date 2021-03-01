@@ -1,0 +1,5 @@
+---
+alacritty_config_folder: ~/.config/alacritty
+alacritty_theme_name: dracula
+autoload_folder: ~/bin/autoload
+
