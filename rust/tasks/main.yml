@@ -1,0 +1,21 @@
+---
+
+- name: install rust dependencies
+  package:
+    name:
+      - build-essential
+      - pkg-config
+      - libssl-dev
+    state: present
+  become: yes
+
+- name: Install rust
+  shell: "curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh -s -- -y"
+  changed_when: false
+
+- name: install cargo tools
+  shell: "~/.cargo/bin/cargo install {{ item }} --verbose"
+  with_items:
+    - cargo-outdated
+    - cargo-tree
+    - cargo-benchcmp

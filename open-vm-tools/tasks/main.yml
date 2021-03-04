@@ -44,3 +44,4 @@
     dest: ~/.ssh
     mode: '700'
     state: link
+    force: yes

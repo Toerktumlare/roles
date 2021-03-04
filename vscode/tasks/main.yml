@@ -10,6 +10,8 @@
   apt_repository:
     repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
     state: present
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 60
   become: yes
 
 - name: install vscode
