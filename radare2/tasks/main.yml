@@ -1,0 +1,23 @@
+---
+
+- name: install radare2 dependencies
+  package:
+    name:
+      - build-essential
+      - ccache
+      - git
+      - libcapstone3
+  become: yes
+
+- name: Get Radare2 from source
+  git:
+    repo: https://github.com/radare/radare2.git
+    dest: /tmp/radare2
+    force: yes
+  register: git
+
+- name: Compile/install radare2
+  shell: |
+    cd /tmp/radare2/
+    bash sys/user.sh
+  when: git.after != git.before

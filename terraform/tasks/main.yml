@@ -1,0 +1,21 @@
+---
+
+- name: add official hashicorp gpg key to apt
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+  become: yes
+
+- name: add hashicorp repository | Debian
+  apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com buster main"
+    state: present
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 60
+  become: yes
+
+- name: install terraform
+  package:
+    name: terraform
+    state: latest
+  become: yes
