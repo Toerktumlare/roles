@@ -1,0 +1,14 @@
+---
+
+- name: install sixv
+  package:
+    name: 'sxiv'
+    state: present
+  become: yes
+
+- name: install imagemagick
+  package:
+    name: 'imagemagick'
+    state: present
+  become: yes
+
